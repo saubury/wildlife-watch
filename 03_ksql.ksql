@@ -2,6 +2,6 @@ create stream objects (camera_name VARCHAR, objects_found VARCHAR, objects_count
 WITH (KAFKA_TOPIC='topic04', VALUE_FORMAT='json');
 
 create stream animals as
-select objects_count, cast(extractjsonfield(objects_count, '$.elephant') as bigint) as cnt_elephants, cast(extractjsonfield(objects_count, '$.zebra') as bigint) as cnt_zebra 
+select camera_name, objects_count, cast(extractjsonfield(objects_count, '$.elephant') as bigint) as cnt_elephants, cast(extractjsonfield(objects_count, '$.zebra') as bigint) as cnt_zebra 
 from objects;
 

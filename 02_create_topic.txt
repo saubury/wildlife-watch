@@ -1,0 +1,1 @@
+{"camera_name": "mylaptop", "objects_found": [{"class_name": "elephant", "probability": 0.74}, {"class_name": "zebra", "probability": 0.72}, {"class_name": "zebra", "probability": 0.54}], "objects_count": {"elephant": 1, "zebra": 2}}
