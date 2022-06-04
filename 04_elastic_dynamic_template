@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+unset http_proxy
+unset https_proxy
+export http_proxy
+export https_proxy
+
+HOST=localhost:9200
+
+echo "Loading Elastic Dynamic Templates"
+
+# curl -XDELETE "http://${HOST}/_template/kafkaconnect/"
+# echo
+# echo
+
+curl -XPUT "http://${HOST}/_template/kafkaconnect/" -H 'Content-Type: application/json' -d'
+{
+  "template": "*",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "dates01": {
+          "match": "*TIMESTAMP",
+          "mapping": {
+            "type": "date",
+            "ignore_malformed": true
+          }
+        }
+      },
+      {
+        "locations": {
+          "match": "LOCATION",
+          "mapping": {
+            "type": "geo_point"
+          }
+        }
+      },
+      {
+        "non_analysed_string_template": {
+          "match": "*",
+          "match_mapping_type": "string",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      }
+    ]
+  }
+}'
+
+echo
+

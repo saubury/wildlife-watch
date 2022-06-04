@@ -32,3 +32,5 @@ pip --version
 # Checks
 curl -s "http://localhost:8083/connector-plugins" | jq '.'
 
+run script './03_ksql.ksql';
+

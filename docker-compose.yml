@@ -153,21 +153,21 @@ services:
       xpack.security.enabled: "false"
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
       discovery.type: "single-node"
-    command:
-      - bash
-      - -c
-      - |
-        /usr/local/bin/docker-entrypoint.sh &
-        echo "Waiting for Elasticsearch to start ⏳"
-        while [ $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) -ne 200 ] ; do
-          echo -e $$(date) " Elasticsearch listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) " (waiting for 200)"
-          sleep 5
-        done
-        echo -e "\n--\n+> Creating Elasticsearch dynamic mapping"
-        curl -XPUT "http://localhost:9200/_template/kafkaconnect_01/" \
-            -H 'Content-Type: application/json' \
-              -d'{ "template": "*", "settings": { "number_of_shards": 1, "number_of_replicas": 0 }, "mappings": { "dynamic_templates": [ { "dates01": { "match": "*TIMESTAMP", "mapping": { "type": "date", "ignore_malformed": true } } }, { "non_analysed_string_template": { "match": "*", "match_mapping_type": "string", "mapping": { "type": "keyword" } } } ] } }'
-        sleep infinity
+    # command:
+    #   - bash
+    #   - -c
+    #   - |
+    #     /usr/local/bin/docker-entrypoint.sh &
+    #     echo "Waiting for Elasticsearch to start ⏳"
+    #     while [ $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) -ne 200 ] ; do
+    #       echo -e $$(date) " Elasticsearch listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) " (waiting for 200)"
+    #       sleep 5
+    #     done
+    #     echo -e "\n--\n+> Creating Elasticsearch dynamic mapping"
+    #     curl -XPUT "http://localhost:9200/_template/kafkaconnect_01/" \
+    #         -H 'Content-Type: application/json' \
+    #           -d'{ "template": "*", "settings": { "number_of_shards": 1, "number_of_replicas": 0 }, "mappings": { "dynamic_templates": [ { "dates01": { "match": "*TIMESTAMP", "mapping": { "type": "date", "ignore_malformed": true } } }, { "non_analysed_string_template": { "match": "*", "match_mapping_type": "string", "mapping": { "type": "keyword" } } } ] } }'
+    #     sleep infinity
 
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELST_VER}
