@@ -27,3 +27,8 @@ pip --version
 ```
   python3 detect.py   --model efficientdet_lite0.tflite
 ```
+
+
+# Checks
+curl -s "http://localhost:8083/connector-plugins" | jq '.'
+

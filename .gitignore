@@ -1,2 +1,5 @@
 efficientdet_lite0.tflite
 __pycache__/*
+TMP/*
+docker/README.md
+producer.py
