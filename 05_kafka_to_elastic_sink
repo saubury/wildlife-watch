@@ -41,5 +41,6 @@ topic_to_elastic () {
 
 
 topic_to_elastic animals
+topic_to_elastic zoo
 
 

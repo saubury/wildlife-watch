@@ -1,7 +1,30 @@
 create stream objects (camera_name VARCHAR, objects_found VARCHAR, objects_count VARCHAR) 
-WITH (KAFKA_TOPIC='topic04', VALUE_FORMAT='json');
+WITH (KAFKA_TOPIC='objects', VALUE_FORMAT='json');
 
 create stream animals as
-select camera_name, objects_count, cast(extractjsonfield(objects_count, '$.elephant') as bigint) as cnt_elephants, cast(extractjsonfield(objects_count, '$.zebra') as bigint) as cnt_zebra 
+select camera_name
+, objects_count
+, cast(extractjsonfield(objects_count, '$.person') as bigint) as person
+, cast(extractjsonfield(objects_count, '$.bird') as bigint) as bird
+, cast(extractjsonfield(objects_count, '$.horse') as bigint) as horse
+, cast(extractjsonfield(objects_count, '$.sheep') as bigint) as sheep
+, cast(extractjsonfield(objects_count, '$.elephant') as bigint) as elephant
+, cast(extractjsonfield(objects_count, '$.bear') as bigint) as bear
+, cast(extractjsonfield(objects_count, '$.zebra') as bigint) as zebra
+, cast(extractjsonfield(objects_count, '$.giraffe') as bigint) as giraffe
 from objects;
 
+create table zoo as
+select camera_name
+, max(person) as max_person
+, max(bird) as max_bird
+, max(horse) as max_horse
+, max(sheep) as max_sheep
+, max(elephant) as max_elephant
+, max(bear) as max_bear
+, max(zebra) as max_zebra
+, max(giraffe) as max_giraffe
+from animals
+window tumbling (size 5 seconds)
+group by camera_name
+emit changes;

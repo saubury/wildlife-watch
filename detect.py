@@ -76,10 +76,9 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
       "objects_count": detection_result_count
     }
     json_dump = json.dumps(json_payload)
-    print(json_dump)
+    print(detection_result_count)
     
     if not kafka_producer:
-      print('Sending stuff to Kafka')
       kafka_producer.poll(0)
       kafka_producer.produce(config['kafka']['topic'], json_dump.encode('utf-8'), callback=delivery_report)
       kafka_producer.flush()

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOPIC=topic04
+TOPIC=objects
 BOOTSRAP=localhost:9092
 FILE=02_create_topic.txt
 
