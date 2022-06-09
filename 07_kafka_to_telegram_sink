@@ -1,0 +1,27 @@
+#!/bin/bash
+
+unset http_proxy
+unset https_proxy
+export http_proxy
+export https_proxy
+
+HOST=http://localhost:8083
+
+
+curl -X GET ${HOST}/connectors/
+echo
+
+curl -X DELETE ${HOST}/connectors/teaddybear-telegram-sink
+echo
+
+curl -X POST \
+   -H 'Host: kafka.local' \
+   -H 'Accept: application/json' \
+   -H 'Content-Type: application/json' \
+  ${HOST}/connectors \
+  -d @./07_teaddybear-telegram-sink.json
+echo
+
+curl -X GET ${HOST}/connectors/
+echo
+

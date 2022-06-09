@@ -82,10 +82,10 @@ services:
       CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-${CONF_VER}.jar
       CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+      CONNECT_PLUGIN_PATH: "/usr/share/connect_plugin,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
     volumes:
-      - ./confluentinc-kafka-connect-elasticsearch-13.0.0:/usr/share/java/confluentinc-kafka-connect-elasticsearch-13.0.0
+      - ./connect_plugin:/usr/share/connect_plugin
 
   # control-center:
   #   image: confluentinc/cp-enterprise-control-center:${CONF_VER}

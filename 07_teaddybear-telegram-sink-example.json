@@ -1,0 +1,28 @@
+{
+    "name": "teaddybear-telegram-sink",
+    "config": {
+      "topics": "teaddybear-telegram-topic",
+      "input.data.format": "JSON",
+      "connector.class": "HttpSink",
+      "confluent.topic.bootstrap.servers": "broker:29092",
+      "confluent.topic.replication.factor": "1",
+      "reporter.bootstrap.servers": "broker:29092",
+      "reporter.result.topic.name": "success-responses",
+      "reporter.result.topic.replication.factor": "1",
+      "reporter.error.topic.name": "error-responses",
+      "reporter.error.topic.replication.factor": "1",
+      "http.api.url": "https://api.telegram.org/botXXXXXX/sendMessage",
+      "request.method": "POST",
+      "headers": "Content-Type: application/json",
+      "request.body.format": "string",
+      "batch.max.size": "1",
+      "batch.prefix": "{\"chat_id\":\"-123456\", ",
+      "batch.suffix": "}",
+      "regex.patterns": ".*MESSAGE=(.*)",
+      "regex.replacements": "\"text\":\"$1\"",
+      "regex.separator": "~",      
+      "tasks.max": "1",
+      "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+    }
+  }
+

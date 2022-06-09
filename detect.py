@@ -55,7 +55,9 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
       )
 
     counter += 1
-    image = cv2.flip(image, 1)
+    if not videoFile:
+      # flip image if using webcam
+      image = cv2.flip(image, 1)
 
     # Convert the image from BGR to RGB as required by the TFLite model.
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

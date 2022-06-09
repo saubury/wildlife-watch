@@ -3,4 +3,6 @@ __pycache__/*
 TMP/*
 docker/README.md
 producer.py
-confluentinc-kafka-connect-elasticsearch-13.0.0/*
+connect_plugin/*conn*/
+random-notes
+07_teaddybear-telegram-sink.json

@@ -12,6 +12,7 @@ select camera_name
 , cast(extractjsonfield(objects_count, '$.bear') as bigint) as bear
 , cast(extractjsonfield(objects_count, '$.zebra') as bigint) as zebra
 , cast(extractjsonfield(objects_count, '$.giraffe') as bigint) as giraffe
+, cast(extractjsonfield(objects_count, '$.''teddy bear''') as bigint) as teddybear
 from objects;
 
 create table zoo as
@@ -24,6 +25,7 @@ select camera_name
 , max(bear) as max_bear
 , max(zebra) as max_zebra
 , max(giraffe) as max_giraffe
+, max(teddybear) as max_teddybear
 from animals
 window tumbling (size 5 seconds)
 group by camera_name
