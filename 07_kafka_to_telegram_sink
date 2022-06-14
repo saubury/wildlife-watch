@@ -19,7 +19,7 @@ curl -X POST \
    -H 'Accept: application/json' \
    -H 'Content-Type: application/json' \
   ${CONNECTHOST}/connectors \
-  -d @./06_teaddybear-telegram-sink.json
+  -d @./07_teaddybear-telegram-sink.json
 echo
 
 curl -X GET ${CONNECTHOST}/connectors/

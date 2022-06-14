@@ -11,6 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# CREDIT
+# Copied from https://github.com/tensorflow/examples/blob/master/lite/examples/object_detection/raspberry_pi/utils.py
+
 """Utility functions to display the pose detection results."""
 
 import cv2

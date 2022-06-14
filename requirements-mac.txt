@@ -1,0 +1,12 @@
+absl-py==1.0.0
+cffi==1.15.0
+confluent-kafka==1.8.2
+flatbuffers==1.12
+numpy==1.21.6
+opencv-python==4.5.3.56
+protobuf==3.20.1
+pybind11==2.9.2
+pycparser==2.21
+six==1.16.0
+sounddevice==0.4.4
+tflite-support==0.4.0

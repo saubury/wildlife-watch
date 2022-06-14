@@ -87,29 +87,6 @@ services:
     volumes:
       - ./connect_plugin:/usr/share/connect_plugin
 
-  # control-center:
-  #   image: confluentinc/cp-enterprise-control-center:${CONF_VER}
-  #   hostname: control-center
-  #   container_name: control-center
-  #   depends_on:
-  #     - broker
-  #     - schema-registry
-  #     - connect
-  #     - ksqldb-server
-  #   ports:
-  #     - "9021:9021"
-  #   environment:
-  #     CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
-  #     CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER: 'connect:8083'
-  #     CONTROL_CENTER_KSQL_KSQLDB1_URL: "http://ksqldb-server:8088"
-  #     CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
-  #     CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
-  #     CONTROL_CENTER_REPLICATION_FACTOR: 1
-  #     CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
-  #     CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
-  #     CONFLUENT_METRICS_TOPIC_REPLICATION: 1
-  #     PORT: 9021
-
   ksqldb-server:
     image: confluentinc/cp-ksqldb-server:${CONF_VER}
     hostname: ksqldb-server
@@ -153,21 +130,7 @@ services:
       xpack.security.enabled: "false"
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
       discovery.type: "single-node"
-    # command:
-    #   - bash
-    #   - -c
-    #   - |
-    #     /usr/local/bin/docker-entrypoint.sh &
-    #     echo "Waiting for Elasticsearch to start ⏳"
-    #     while [ $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) -ne 200 ] ; do
-    #       echo -e $$(date) " Elasticsearch listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) " (waiting for 200)"
-    #       sleep 5
-    #     done
-    #     echo -e "\n--\n+> Creating Elasticsearch dynamic mapping"
-    #     curl -XPUT "http://localhost:9200/_template/kafkaconnect_01/" \
-    #         -H 'Content-Type: application/json' \
-    #           -d'{ "template": "*", "settings": { "number_of_shards": 1, "number_of_replicas": 0 }, "mappings": { "dynamic_templates": [ { "dates01": { "match": "*TIMESTAMP", "mapping": { "type": "date", "ignore_malformed": true } } }, { "non_analysed_string_template": { "match": "*", "match_mapping_type": "string", "mapping": { "type": "keyword" } } } ] } }'
-    #     sleep infinity
+
 
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELST_VER}
@@ -180,69 +143,3 @@ services:
     environment:
       xpack.security.enabled: "false"
       discovery.type: "single-node"
-    # command:
-    #   - bash
-    #   - -c
-    #   - |
-    #     /usr/local/bin/kibana-docker &
-    #     echo "Waiting for Kibana to be ready ⏳"
-    #     while [ $$(curl -H 'kbn-xsrf: true' -s -o /dev/null -w %{http_code} http://localhost:5601/api/saved_objects/_find?type=index-pattern&search_fields=title&search=*) -ne 200 ] ; do 
-    #       echo -e "\t" $$(date) " Kibana saved objects request response: " $$(curl -H 'kbn-xsrf: true' -o /dev/null -w %{http_code} -s http://localhost:5601/api/saved_objects/_find?type=index-pattern&search_fields=title&search=*) $$(curl -H 'kbn-xsrf: true' -s http://localhost:5601/api/saved_objects/_find?type=index-pattern&search_fields=title&search=*) " (waiting for 200)"
-    #       sleep 5  
-    #     done
-    #     echo -e "\t" $$(date) " Kibana saved objects request response: " $$(curl -H 'kbn-xsrf: true' -o /dev/null -w %{http_code} -s http://localhost:5601/api/saved_objects/_find?type=index-pattern&search_fields=title&search=*) $$(curl -H 'kbn-xsrf: true' -s http://localhost:5601/api/saved_objects/_find?type=index-pattern&search_fields=title&search=*)
-    #     echo -e "\n--\n+> Pre-creating index pattern"
-    #     curl -s -XPOST 'http://localhost:5601/api/saved_objects/index-pattern/orders_enriched' \
-    #       -H 'kbn-xsrf: nevergonnagiveyouup' \
-    #       -H 'Content-Type: application/json' \
-    #       -d '{"attributes":{"title":"orders_enriched","timeFieldName":"ORDER_TIMESTAMP"}}'
-    #     echo -e "\n--\n+> Setting the index pattern as default"
-    #     curl -s -XPOST 'http://localhost:5601/api/kibana/settings' \
-    #       -H 'kbn-xsrf: nevergonnagiveyouup' \
-    #       -H 'content-type: application/json' \
-    #       -d '{"changes":{"defaultIndex":"orders_enriched"}}'
-    #     echo -e "\n--\n+> Opt out of Kibana telemetry"
-    #     curl 'http://localhost:5601/api/telemetry/v2/optIn' \
-    #         -H 'kbn-xsrf: nevergonnagiveyouup' \
-    #         -H 'content-type: application/json' \
-    #         -H 'accept: application/json' \
-    #         --data-binary '{"enabled":false}' \
-    #         --compressed
-    #     sleep infinity
-
-  # ksql-datagen:
-  #   image: confluentinc/ksqldb-examples:${CONF_VER}
-  #   hostname: ksql-datagen
-  #   container_name: ksql-datagen
-  #   depends_on:
-  #     - ksqldb-server
-  #     - broker
-  #     - schema-registry
-  #     - connect
-  #   command: "bash -c 'echo Waiting for Kafka to be ready... && \
-  #                      cub kafka-ready -b broker:29092 1 40 && \
-  #                      echo Waiting for Confluent Schema Registry to be ready... && \
-  #                      cub sr-ready schema-registry 8081 40 && \
-  #                      echo Waiting a few seconds for topic creation to finish... && \
-  #                      sleep 11 && \
-  #                      tail -f /dev/null'"
-  #   environment:
-  #     KSQL_CONFIG_DIR: "/etc/ksql"
-  #     STREAMS_BOOTSTRAP_SERVERS: broker:29092
-  #     STREAMS_SCHEMA_REGISTRY_HOST: schema-registry
-  #     STREAMS_SCHEMA_REGISTRY_PORT: 8081
-
-  # rest-proxy:
-  #   image: confluentinc/cp-kafka-rest:${CONF_VER}
-  #   depends_on:
-  #     - broker
-  #     - schema-registry
-  #   ports:
-  #     - 8082:8082
-  #   hostname: rest-proxy
-  #   container_name: rest-proxy
-  #   environment:
-  #     KAFKA_REST_HOST_NAME: rest-proxy
-  #     KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
-  #     KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
-  #     KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'

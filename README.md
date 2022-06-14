@@ -124,6 +124,8 @@ Can check Kibana index by visiting http://localhost:5601/app/management/kibana/i
 ## Create a visulization
 Go to http://localhost:5601/app/lens to create a visulization and dashboard
 
+Or - go to http://localhost:5601/app/management/kibana/objects and select _Import saved objects_ and upload `06_kibana_export.ndjson`
+
 ![A Kibana display line graph](docs/kibana.jpg)
 
 # Setup Telegram
@@ -136,15 +138,15 @@ To call Telegram you must use and create your own bot. Although we're not using 
 ## Setup Kafka connect sink to HTTP
 
 ```bash
-cp 06_teaddybear-telegram-sink-example.json 06_teaddybear-telegram-sink.json
+cp 07_teaddybear-telegram-sink-example.json 07_teaddybear-telegram-sink.json
 ```
 
-And then edit `06_teaddybear-telegram-sink.json` updating the bot url and chat_id
+And then edit `07_teaddybear-telegram-sink.json` updating the bot url and chat_id
 
 ## Setup Kafka connect sink to HTTP
 Establish Kafka connect sink to HTTP for Telegram
 
 ```bash
-./06_kafka_to_telegram_sink
+./07_kafka_to_telegram_sink
 ```
 

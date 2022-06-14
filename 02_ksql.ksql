@@ -31,4 +31,6 @@ window tumbling (size 30 seconds)
 group by camera_name
 emit changes;
 
-create stream TEDDYTOPIC as select 'Hello  from ksql' as message from animals where teddybear > 0 ;
+create stream TEDDYTOPIC as select '📢 Just saw a 🧸 TEDDY BEAR in the garden' as message 
+from animals 
+where teddybear > 0 ;
