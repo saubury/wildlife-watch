@@ -44,7 +44,7 @@ python3 detect.py
 
 Run the detection loop using the sample video file
 ```bash
-python detect.py --videoFile ./demowildlife.mp4
+python detect.py --videoFile ./cat.mov
 ```
 
 ![Image recognition with bounding boxes and JSON console overlay](docs/image-and-json.jpg)
@@ -160,5 +160,5 @@ python3 detect.py --enableKafka
 
 Run the detection loop using the sample video file
 ```bash
-python detect.py --videoFile ./demowildlife.mp4 --enableKafka
+python detect.py --videoFile ./cat.mov --enableKafka
 ```
