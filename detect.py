@@ -11,7 +11,7 @@ from collections import Counter
 from confluent_kafka import Producer
 import configparser
 
-config_file_name = 'ww.ini'
+config_file_name = 'detect.ini'
 
       
 # Continuously run inference on images acquired from the camera
@@ -69,7 +69,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
     detection_result = detector.detect(input_tensor)
 
     detection_result_dict = dumpDetect(detection_result)
-    detection_result_count = Counter(k['class_name'] for k in detection_result_dict if k.get('class_name'))
+    detection_result_count = Counter(k['class_name'].replace(' ', '') for k in detection_result_dict if k.get('class_name').replace(' ', ''))
 
 
     json_payload = {

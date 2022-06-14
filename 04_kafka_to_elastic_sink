@@ -5,7 +5,7 @@ unset https_proxy
 export http_proxy
 export https_proxy
 
-HOST=http://localhost:8083
+CONNECTHOST=http://localhost:8083
 
 topic_to_elastic () {
   table_name=$1
@@ -14,7 +14,7 @@ topic_to_elastic () {
   echo "*** MAP ${TABLE_NAME} ***"
   echo "************************************"
 
-  curl -X "POST" "${HOST}/connectors/" \
+  curl -X "POST" "${CONNECTHOST}/connectors/" \
      -H "Content-Type: application/json" \
      -d $'{
   "name": "es_sink_'$TABLE_NAME'",

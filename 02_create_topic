@@ -1,9 +1,0 @@
-#!/bin/bash
-
-TOPIC=objects
-BOOTSRAP=localhost:9092
-FILE=02_create_topic.txt
-
-kafka-topics --bootstrap-server ${BOOTSRAP} --create --partitions 1 --replication-factor 1 --topic ${TOPIC}
-
-head -1 ${FILE} | kafka-console-producer --broker-list ${BOOTSRAP} --topic ${TOPIC}

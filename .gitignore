@@ -6,3 +6,7 @@ producer.py
 connect_plugin/*conn*/
 random-notes
 07_teaddybear-telegram-sink.json
+06_teaddybear-telegram-sink.json
+movie/*
+teddy.mov
+cat.mov
