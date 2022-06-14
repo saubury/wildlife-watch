@@ -13,7 +13,9 @@ import configparser
 
 config_file_name = 'detect.ini'
 
-      
+# A lot of inspiration taken from 
+# https://github.com/tensorflow/examples/blob/master/lite/examples/object_detection/raspberry_pi/detect.py
+
 # Continuously run inference on images acquired from the camera
 def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
         kafka_producer, videoFile, hide_preview, config) -> None:
@@ -70,8 +72,6 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
     detection_result_dict = dumpDetect(detection_result)
     detection_result_count = Counter(k['class_name'].replace(' ', '') for k in detection_result_dict if k.get('class_name').replace(' ', ''))
-
-
     json_payload = {
       "camera_name": config['common']['camera.name'],
       "objects_found": detection_result_dict,
@@ -81,6 +81,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
     print(detection_result_count)
     
     if not kafka_producer:
+      # Have enable Kafka producer
       kafka_producer.poll(0)
       kafka_producer.produce(config['kafka']['topic'], json_dump.encode('utf-8'), callback=delivery_report)
       kafka_producer.flush()
@@ -112,14 +113,12 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
   # end of run
 
 
-
-
-
+# Callback for Kafka producer
 def delivery_report(err, msg):
     if err is not None:
         print('Message delivery failed: {}'.format(err))
 
-
+# Collapse detection results into dictionary
 def dumpDetect(detection_result: processor.DetectionResult):
   return_dict = []
 
@@ -186,10 +185,8 @@ def main():
     print('Enabling Kafka Producer')
     kafka_producer = Producer({'bootstrap.servers': config['kafka']['bootstrap.servers']})
 
-
   run(args.model, int(args.cameraId), args.frameWidth, args.frameHeight,
       int(args.numThreads), kafka_producer, args.videoFile, args.hidePreview, config)
-
 
 if __name__ == '__main__':
   main()

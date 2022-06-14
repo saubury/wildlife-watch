@@ -150,3 +150,15 @@ Establish Kafka connect sink to HTTP for Telegram
 ./07_kafka_to_telegram_sink
 ```
 
+# End to end 
+Now everything is setup, it's time to run detection loop with Rasparry Pi producing results to Kafka. Pass the `--enableKafka` flag to write object detection as events
+
+Run the detection loop using the camera
+```bash
+python3 detect.py --enableKafka
+```
+
+Run the detection loop using the sample video file
+```bash
+python detect.py --videoFile ./demowildlife.mp4 --enableKafka
+```
