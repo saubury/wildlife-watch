@@ -4,9 +4,12 @@ Wildlife monitoring is essential for keeping track of animal movement patterns &
 ![Wildlife monitoring project overview as stylised graphic](docs/overview.jpg)
 
 This project is a demonstration of using a raspberry Pi and camera,
-Apache Kafka, Kafka Connect to identify and classify animals. Using ksqlDB to see population trends over time and the display of real-time analytics on this data with  Kibana dashboards. Plus instant alerting using Telegram to send me a push notification to my phone if we discovered a rare animal
+Apache Kafka, Kafka Connect to identify and classify animals. Using ksqlDB to see population trends over time and the display of real-time analytics on this data with  Kibana dashboards. Plus instant alerting using Telegram to send me a push notification to my phone if we discover a rare animal
 
+## In action
+When running end to end, the object detection, Kafka Connect and ksqlDB processing plus the Kibana dashboards look like this
 
+![Animation showing elephant object detection plus the Kibana dashboards](docs/wildlife-watcher.gif)
 
 # Setup Rasperry Pi / Kafka Producer
 
@@ -15,14 +18,18 @@ This code has been tested on a Raspberry Pi 4 and MacBook Pro (Intel) with Pytho
 This example uses TensorFlow Lite with Python on a Raspberry Pi to perform real-time object detection using images streamed from the Pi Camera. Much inspiration taken from the [TensorFlow Lite Python object detection example](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/raspberry_pi)
 
 
+
+
 ### Download the EfficientDet-Lite mode
-Download a pre-trained TensorFlow Lite - which can detect elepahnts, cats etc.,
+Download a pre-trained TensorFlow Lite detection model - which can detect elepahnts, cats etc.,
 ```bash
 curl -L 'https://tfhub.dev/tensorflow/lite-model/efficientdet/lite0/detection/metadata/1?lite-format=tflite'     -o efficientdet_lite0.tflite
 ```
 
 
 ## Setup virtual python environment 
+Use a virtual python environment to keep dependancies seperate
+
  ```bash
 virtualenv -p `which python3` venv
 source venv/bin/activate
@@ -162,3 +169,7 @@ Run the detection loop using the sample video file
 ```bash
 python detect.py --videoFile ./cat.mov --enableKafka
 ```
+
+
+# Video
+[![YouTube Video describing Wildlife monitoring project](https://img.youtube.com/vi/VcNByCJutf0/0.jpg)](https://www.youtube.com/watch?v=VcNByCJutf0)
