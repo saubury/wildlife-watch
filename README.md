@@ -31,8 +31,8 @@ curl -L 'https://tfhub.dev/tensorflow/lite-model/efficientdet/lite0/detection/me
 Use a virtual python environment to keep dependancies seperate
 
  ```bash
-virtualenv -p `which python3` venv
-source venv/bin/activate
+python3 -m venv env
+source env/bin/activate
 python --version
 pip --version
 ```
@@ -42,6 +42,21 @@ pip --version
 python3 -m pip install pip --upgrade
 python3 -m pip install -r requirements.txt
 ```
+
+## Fixes
+Fix for `Library not loaded: ... libusb-1.0.0.dylib`
+```bash
+brew install libusb
+```
+
+
+Fix for `TypeError: create_from_options(): incompatible function arguments. `
+```bash
+pip install tflite-support==0.4.0
+```
+
+
+
 
 ## Run detection loop
 Run the detection loop using the camera
